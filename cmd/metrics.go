@@ -88,7 +88,7 @@ func numSamples(metric string, db *promTsdb.DB, block *promTsdb.Block, debug boo
 	return metricStat{metric, totalTimeseries, totalSamples}
 }
 
-func labelStats(metric string, block *promTsdb.Block) []labelStat {
+func rawLabelStats(metric string, block *promTsdb.Block) map[string]map[string]bool {
 	indexReader, _ := block.Index()
 	p, _ := promTsdb.PostingsForMatchers(indexReader, promTsdbLabels.NewEqualMatcher("__name__", metric))
 
@@ -107,6 +107,12 @@ func labelStats(metric string, block *promTsdb.Block) []labelStat {
 			// fmt.Printf("%v\n", l)
 		}
 	}
+
+	return labelStats
+}
+
+func labelStats(metric string, block *promTsdb.Block) []labelStat {
+	labelStats := rawLabelStats(metric, block)
 
 	var stat []labelStat
 	for label, values := range labelStats {
@@ -161,13 +167,13 @@ to quickly create a Cobra application.`,
 		uiprogress.Start()
 		var bar *uiprogress.Bar
 		if !no_bar {
-			bar = uiprogress.AddBar(len(metrics[:100]))
+			bar = uiprogress.AddBar(len(metrics))
 			bar.AppendCompleted()
 			bar.PrependElapsed()
 		}
 
 		var stat []metricStat
-		for _, metric := range metrics[:100] {
+		for _, metric := range metrics {
 			if !no_bar {
 				bar.Incr()
 			}
