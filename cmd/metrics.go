@@ -34,6 +34,7 @@ import (
 var blockId string
 var top int
 var top_labels int
+var no_bar bool
 
 type metricStat struct {
 	Metric  string
@@ -158,13 +159,18 @@ to quickly create a Cobra application.`,
 		metrics := metrics(indexReader)
 
 		uiprogress.Start()
-		bar := uiprogress.AddBar(len(metrics[:100]))
-		bar.AppendCompleted()
-		bar.PrependElapsed()
+		var bar *uiprogress.Bar
+		if !no_bar {
+			bar = uiprogress.AddBar(len(metrics[:100]))
+			bar.AppendCompleted()
+			bar.PrependElapsed()
+		}
 
 		var stat []metricStat
 		for _, metric := range metrics[:100] {
-			bar.Incr()
+			if !no_bar {
+				bar.Incr()
+			}
 			stat = append(stat, numSamples(metric, db, block, false))
 		}
 
@@ -212,4 +218,5 @@ func init() {
 	metricsCmd.PersistentFlags().StringVar(&blockId, "block", "", "verbose output")
 	metricsCmd.PersistentFlags().IntVar(&top, "top", 100, "verbose output")
 	metricsCmd.PersistentFlags().IntVar(&top_labels, "top-labels", 5, "verbose output")
+	metricsCmd.PersistentFlags().BoolVar(&no_bar, "no-bar", false, "verbose output")
 }
