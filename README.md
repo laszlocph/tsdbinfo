@@ -27,7 +27,7 @@ chmod +x tsdbinfo
 #### List all the blocks
 
 ```bash
-  ➜  tsdbinfo blocks --storage.tsdb.path=/my/prometheus/path/data
+  ➜  tsdbinfo blocks --storage.tsdb.path=/my/prometheus/path/data --no-prom-logs
   ID                            FROM                         UNTIL                        STATS
   01CZWK46GK8BVHQCRNNS763NS3    2018-12-22T13:00:00+01:00    2018-12-29T07:00:00+01:00    {"numSamples":3167899784,"numSeries":3070548,"numChunks":29336192,"numBytes":4419004512}
   01D1EFWJ44G9WGN7AQ9398G2W2    2019-01-11T01:00:00+01:00    2019-01-11T19:00:00+01:00    {"numBytes":8634}
@@ -37,7 +37,7 @@ chmod +x tsdbinfo
 #### Identify the largest metrics
 
 ```bash
-  ➜  tsdbinfo metrics --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --no-bar --top=3
+  ➜  tsdbinfo metrics --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --no-bar  --no-prom-logs --top=3
   METRICSAMPLES        SERIES     LABELS
   solr_metrics_core_errors_total                              164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
   solr_metrics_core_time_seconds_total                        164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
@@ -47,7 +47,7 @@ chmod +x tsdbinfo
 #### Investigate label explosion
 
 ```bash
-  ➜  tsdbinfo metric --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --metric=http_server_requests_total
+  ➜  tsdbinfo metric --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --metric=http_server_requests_total --no-prom-logs
   Metric        http_server_requests_total
   Samples       5,365,975
   TimeSeries    582
