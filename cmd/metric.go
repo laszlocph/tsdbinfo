@@ -32,13 +32,55 @@ var metric string
 // metricCmd represents the metric command
 var metricCmd = &cobra.Command{
 	Use:   "metric",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "To dig deep on a single metric",
+	Long: `
+Digs deep on a given metric. It's best used to understand what labels you store and spot cardinality explosion that is bad for your Prometheus: https://prometheus.io/docs/practices/naming/#labels
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Remember that every unique combination of key-value label pairs represents a new time series, which can dramatically increase the amount of data stored. Do not use labels to store dimensions with high cardinality (many different label values), such as user IDs, email addresses, or other unbounded sets of values.
+
+Example usage:
+
+	➜  tsdbinfo metric --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --metric=http_server_requests_total
+	Metric        http_server_requests_total
+	Samples       5,365,975
+	TimeSeries    582
+	Label         path                    172
+	Label         kubernetes_pod_name     14
+	Label         instance                14
+	Label         code                    10
+	Label         pod_template_hash       7
+	Label         method                  6
+	Label         version                 5
+	Label         app                     5
+	Label         feature                 2
+	Label         kubernetes_namespace    2
+	Label         k8scluster              2
+	Label         __name__                1
+	Label         job                     1
+	LabelValue    pod_template_hash       4120792344
+	LabelValue    pod_template_hash       1980135293
+	LabelValue    pod_template_hash       102934907
+	LabelValue    pod_template_hash       1006272702
+	LabelValue    pod_template_hash       3602012261
+	LabelValue    pod_template_hash       3571852123
+	LabelValue    pod_template_hash       3513057117
+	LabelValue    code                    400
+	LabelValue    code                    401
+	LabelValue    code                    406
+	LabelValue    code                    200
+	LabelValue    code                    301
+	LabelValue    code                    302
+	LabelValue    code                    304
+	LabelValue    code                    404
+	LabelValue    code                    422
+	LabelValue    code                    500
+	LabelValue    method                  get
+	LabelValue    method                  post
+	LabelValue    method                  head
+	LabelValue    method                  put
+	LabelValue    method                  patch
+
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if storagePath == "" {
 			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path")

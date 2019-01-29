@@ -125,13 +125,21 @@ func labelStats(metric string, block *promTsdb.Block) []labelStat {
 // metricsCmd represents the metrics command
 var metricsCmd = &cobra.Command{
 	Use:   "metrics",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "To identify the largest metrics in a given block",
+	Long: `
+Identifies the largest metrics in a given block. You can get block IDs with the "tsdb blocks" command.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+NOTE: It does a sequencial scan on the given block so it may take a long time
+
+Example usage:
+
+  ➜  tsdbinfo metrics --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --no-bar --top=3
+  METRICSAMPLES        SERIES     LABELS
+  solr_metrics_core_errors_total                              164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
+  solr_metrics_core_time_seconds_total                        164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
+  solr_metrics_core_timeouts_total                            164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
+
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if storagePath == "" {
 			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path")
@@ -221,8 +229,8 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(metricsCmd)
-	metricsCmd.PersistentFlags().StringVar(&blockId, "block", "", "verbose output")
-	metricsCmd.PersistentFlags().IntVar(&top, "top", 100, "verbose output")
-	metricsCmd.PersistentFlags().IntVar(&top_labels, "top-labels", 5, "verbose output")
-	metricsCmd.PersistentFlags().BoolVar(&no_bar, "no-bar", false, "verbose output")
+	metricsCmd.PersistentFlags().StringVar(&blockId, "block", "", "The ID of the TSDB block to inspect.")
+	metricsCmd.PersistentFlags().IntVar(&top, "top", 100, "To control the length of the resultset. Default: 100")
+	metricsCmd.PersistentFlags().IntVar(&top_labels, "top-labels", 5, "Number of labels to display. Default: 5")
+	metricsCmd.PersistentFlags().BoolVar(&no_bar, "no-bar", false, "To hide the progressbar. In case you want to process the results.")
 }
