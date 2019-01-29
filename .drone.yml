@@ -24,8 +24,6 @@ steps:
 - name: release
   image: golang:1.11
   when:
-    branch:
-    - build
     event:
     - tag
   commands:
