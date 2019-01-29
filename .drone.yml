@@ -1,8 +1,38 @@
 kind: pipeline
 name: default
 
+workspace:
+  base: /go
+  path: src/github.com/laszlocph/tsdbinfo
+
 steps:
-- name: test
-  image: debian:stable-slim
+- name: prereqs
+  image: golang:1.11
   commands:
-    - echo Hello
+    - mkdir /go/bin
+    - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+- name: build
+  image: golang:1.11
+  commands:
+    - dep ensure
+    - env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
+    - mv tsdbinfo tsdbinfo-linux-amd64
+    - env GOOS=darwin GOARCH=amd64 go build
+    - mv tsdbinfo tsdbinfo-mac-amd64
+
+- name: release
+  image: golang:1.11
+  when:
+    branch:
+    - build
+    event:
+    - tag
+  commands:
+    - mv tsdbinfo-linux-amd64 tsdbinfo-$DRONE_TAG-linux-amd64
+    - mv tsdbinfo-mac-amd64 tsdbinfo-$DRONE_TAG-mac-amd64
+    - ./misc/upload-github-release-asset.sh github_api_token=$github_api_token owner=laszlocph repo=tsdbinfo tag=$DRONE_TAG filename=./tsdbinfo-$DRONE_TAG-linux-amd64
+    - ./misc/upload-github-release-asset.sh github_api_token=$github_api_token owner=laszlocph repo=tsdbinfo tag=$DRONE_TAG filename=./tsdbinfo-$DRONE_TAG-mac-amd64
+  environment:
+    github_api_token:
+      from_secret: github_api_token
