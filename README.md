@@ -4,6 +4,22 @@
 
 `tsdbinfo` is a tool that looks into the data folder of Prometheus and gives you a basic understanding of what is stored there.
 
+## Install
+
+Linux
+```
+curl -LO https://github.com/laszlocph/tsdbinfo/releases/download/v0.1.5/tsdbinfo-v0.1.5-linux-amd64
+mv tsdbinfo-v0.1.5-linux-amd64 tsdbinfo
+chmod +x tsdbinfo
+```
+
+Mac
+```
+curl -LO https://github.com/laszlocph/tsdbinfo/releases/download/v0.1.5/tsdbinfo-v0.1.5-mac-amd64
+mv tsdbinfo-v0.1.5-mac-amd64 tsdbinfo
+chmod +x tsdbinfo
+```
+
 ## Basic usage
 
 #### List all the blocks
