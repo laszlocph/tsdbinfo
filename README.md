@@ -1,3 +1,5 @@
+WARNING: not tested on a a path that is in use by a prometheus server. Also not tested with not atching prometheus versions. WAL files may act up.
+
 # tsdbinfo - Understand the series and labels you store in Prometheus
 
 [![Build Status](https://cloud.drone.io/api/badges/laszlocph/tsdbinfo/status.svg)](https://cloud.drone.io/laszlocph/tsdbinfo)
