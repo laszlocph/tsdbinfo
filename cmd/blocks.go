@@ -48,7 +48,7 @@ Example usage:
 			os.Exit(1)
 		}
 
-		db, err := common.Open(storagePath)
+		db, err := common.Open(storagePath, noPromLogs)
 		if err != nil {
 			fmt.Printf("opening storage failed: %s", err)
 		}

@@ -22,6 +22,7 @@ import (
 )
 
 var storagePath string
+var noPromLogs bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -105,4 +106,5 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&storagePath, "storage.tsdb.path", "", "Prometheus TSDB path, same as in your Prometheus config")
+	rootCmd.PersistentFlags().BoolVar(&noPromLogs, "no-prom-logs", false, "Hides Prometheus logs. Default false.")
 }

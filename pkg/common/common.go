@@ -1,7 +1,9 @@
 package common
 
 import (
+	"io"
 	"io/ioutil"
+	"os"
 
 	"github.com/go-kit/kit/log"
 	"github.com/prometheus/client_golang/prometheus"
@@ -24,8 +26,13 @@ func options() *tsdb.Options {
 	return &options
 }
 
-func Open(storagePath string) (*promTsdb.DB, error) {
-	w := log.NewSyncWriter(ioutil.Discard)
+func Open(storagePath string, noPromLogs bool) (*promTsdb.DB, error) {
+	var w io.Writer
+	if noPromLogs {
+		w = log.NewSyncWriter(ioutil.Discard)
+	} else {
+		w = log.NewSyncWriter(os.Stderr)
+	}
 	logger := log.NewLogfmtLogger(w)
 
 	db, err := tsdb.Open(
