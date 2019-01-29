@@ -147,5 +147,5 @@ $ cp -r ../prometheus/01D*/ .
 Then running `tsdbinfo`:
 
 ```
-$ tsdbinfo blocks --storage.tsdb.path.copy=/data/prom-analysis --no-prom-logs
+$ tsdbinfo blocks --storage.tsdb.path.copy=/data/prom-analysis
 ```
