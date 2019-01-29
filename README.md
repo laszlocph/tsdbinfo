@@ -30,7 +30,7 @@ Running `tsdbinfo` on the same path - in parallel - with your production Prometh
 #### List all the blocks
 
 ```bash
-  ➜  tsdbinfo blocks --storage.tsdb.path.copy=/my/prometheus/path/data --no-prom-logs
+  ➜  tsdbinfo blocks --storage.tsdb.path.copy=/my/prometheus/path/data-copy --no-prom-logs
   ID                            FROM                         UNTIL                        STATS
   01CZWK46GK8BVHQCRNNS763NS3    2018-12-22T13:00:00+01:00    2018-12-29T07:00:00+01:00    {"numSamples":3167899784,"numSeries":3070548,"numChunks":29336192,"numBytes":4419004512}
   01D1EFWJ44G9WGN7AQ9398G2W2    2019-01-11T01:00:00+01:00    2019-01-11T19:00:00+01:00    {"numBytes":8634}
@@ -40,7 +40,7 @@ Running `tsdbinfo` on the same path - in parallel - with your production Prometh
 #### Identify the largest metrics
 
 ```bash
-  ➜  tsdbinfo metrics --storage.tsdb.path.copy=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --no-bar  --no-prom-logs --top=3
+  ➜  tsdbinfo metrics --storage.tsdb.path.copy=/my/prometheus/path/data-copy --block=01CZWK46GK8BVHQCRNNS763NS3 --no-bar  --no-prom-logs --top=3
   METRICSAMPLES        SERIES     LABELS
   solr_metrics_core_errors_total                              164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
   solr_metrics_core_time_seconds_total                        164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
@@ -50,7 +50,7 @@ Running `tsdbinfo` on the same path - in parallel - with your production Prometh
 #### Investigate label explosion
 
 ```bash
-  ➜  tsdbinfo metric --storage.tsdb.path.copy=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --metric=http_server_requests_total --no-prom-logs
+  ➜  tsdbinfo metric --storage.tsdb.path.copy=/my/prometheus/path/data-copy --block=01CZWK46GK8BVHQCRNNS763NS3 --metric=http_server_requests_total --no-prom-logs
   Metric        http_server_requests_total
   Samples       5,365,975
   TimeSeries    582
@@ -104,7 +104,7 @@ It follows the Prometheus timeseries database (tsdb) notions: blocks, series, la
 
 ## Copying the Prometheus data folder
 
-If you don't have the space to duplicate your Prometheus data files, just take a sample first of the folders as each subfolder of the `--storage.tsdb.path.copy` is self containing.
+If you don't have the space to duplicate your Prometheus data files, just take a sample of the folders as each subfolder of the `--storage.tsdb.path` is self containing.
 
 
 This is what I do:
@@ -136,7 +136,7 @@ drwxr-xr-x 3 prometheus prometheus 4096 Jan 29 17:00 01D2D8V9E2YVRW1BE884YKKW27
 drwxr-xr-x 2 prometheus prometheus 4096 Jan 29 17:43 wal
 ```
 
-Then copying recent larger chunks:
+Then copying recent chunks:
 
 ```
 $ mkdir /data/prom-analysis
