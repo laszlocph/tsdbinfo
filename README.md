@@ -1,5 +1,7 @@
 # tsdbinfo - Understand the series and labels you store in Prometheus
 
+[![Build Status](https://cloud.drone.io/api/badges/laszlocph/tsdbinfo/status.svg)](https://cloud.drone.io/laszlocph/tsdbinfo)
+
 `tsdbinfo` is a tool that looks into the data folder of Prometheus and gives you a basic understanding of what is stored there.
 
 ## Basic usage
