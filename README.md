@@ -8,15 +8,15 @@
 
 Linux
 ```
-curl -LO https://github.com/laszlocph/tsdbinfo/releases/download/v0.1.5/tsdbinfo-v0.1.5-linux-amd64
-mv tsdbinfo-v0.1.5-linux-amd64 tsdbinfo
+curl -LO https://github.com/laszlocph/tsdbinfo/releases/download/v0.2.0/tsdbinfo-v0.2.0-linux-amd64
+mv tsdbinfo-v0.2.0-linux-amd64 tsdbinfo
 chmod +x tsdbinfo
 ```
 
 Mac
 ```
-curl -LO https://github.com/laszlocph/tsdbinfo/releases/download/v0.1.5/tsdbinfo-v0.1.5-mac-amd64
-mv tsdbinfo-v0.1.5-mac-amd64 tsdbinfo
+curl -LO https://github.com/laszlocph/tsdbinfo/releases/download/v0.2.0/tsdbinfo-v0.2.0-mac-amd64
+mv tsdbinfo-v0.2.0-mac-amd64 tsdbinfo
 chmod +x tsdbinfo
 ```
 
