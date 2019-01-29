@@ -40,7 +40,7 @@ Remember that every unique combination of key-value label pairs represents a new
 
 Example usage:
 
-	➜  tsdbinfo metric --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --metric=http_server_requests_total
+	➜  tsdbinfo metric --storage.tsdb.path.copy=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --metric=http_server_requests_total
 	Metric        http_server_requests_total
 	Samples       5,365,975
 	TimeSeries    582
@@ -83,7 +83,7 @@ Example usage:
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		if storagePath == "" {
-			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path")
+			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path.copy")
 			os.Exit(1)
 		}
 
