@@ -1,4 +1,4 @@
-WARNING: not tested on a a path that is in use by a prometheus server. Also not tested with not atching prometheus versions. WAL files may act up.
+WARNING: not tested on paths that are in use by a prometheus server. Also not tested with not matching prometheus versions. WAL files may act up.
 
 # tsdbinfo - Understand the series and labels you store in Prometheus
 
