@@ -133,7 +133,7 @@ NOTE: It does a sequencial scan on the given block so it may take a long time
 
 Example usage:
 
-  ➜  tsdbinfo metrics --storage.tsdb.path=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --no-bar --top=3
+  ➜  tsdbinfo metrics --storage.tsdb.path.copy=/my/prometheus/path/data --block=01CZWK46GK8BVHQCRNNS763NS3 --no-bar --top=3
   METRICSAMPLES        SERIES     LABELS
   solr_metrics_core_errors_total                              164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
   solr_metrics_core_time_seconds_total                        164,291,959    4,229      core: 99, handler: 32, collection: 16, replica: 9, instance: 5
@@ -142,7 +142,7 @@ Example usage:
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		if storagePath == "" {
-			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path")
+			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path.copy")
 			os.Exit(1)
 		}
 

@@ -34,7 +34,7 @@ Lists all the blocks under the Prometheus TSDB path. With metadata
 
 Example usage:
 
-  ➜  tsdbinfo blocks --storage.tsdb.path=/my/prometheus/path/data
+  ➜  tsdbinfo blocks --storage.tsdb.path.copy=/my/prometheus/path/data
   ID                            FROM                         UNTIL                        STATS
   01CZWK46GK8BVHQCRNNS763NS3    2018-12-22T13:00:00+01:00    2018-12-29T07:00:00+01:00    {"numSamples":3167899784,"numSeries":3070548,"numChunks":29336192,"numBytes":4419004512}
   01D1EFWJ44G9WGN7AQ9398G2W2    2019-01-11T01:00:00+01:00    2019-01-11T19:00:00+01:00    {"numBytes":8634}
@@ -44,7 +44,7 @@ Example usage:
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if storagePath == "" {
-			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path")
+			fmt.Fprintln(os.Stderr, "error: set --storage.tsdb.path.copy")
 			os.Exit(1)
 		}
 
