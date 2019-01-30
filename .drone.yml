@@ -1,5 +1,15 @@
 kind: pipeline
-name: default
+name: lint
+
+steps:
+- name: lint
+  image: golang:1.11
+  commands:
+  - golint -set_exit_status cmd pkg
+
+---
+kind: pipeline
+name: build
 
 workspace:
   base: /go
@@ -34,3 +44,4 @@ steps:
   environment:
     github_api_token:
       from_secret: github_api_token
+
