@@ -165,7 +165,7 @@ Example usage:
 		}
 
 		if block == nil {
-			fmt.Fprintln(os.Stderr, "error: can't find block with id %s", blockId)
+			fmt.Fprintf(os.Stderr, "error: can't find block with id %s", blockId)
 			os.Exit(2)
 		}
 

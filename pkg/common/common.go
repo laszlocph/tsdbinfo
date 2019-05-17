@@ -4,29 +4,14 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"time"
 
 	"github.com/go-kit/kit/log"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/storage/tsdb"
-	promTsdb "github.com/prometheus/tsdb"
+	"github.com/prometheus/tsdb"
 )
 
-func options() *tsdb.Options {
-	options := tsdb.Options{}
-
-	duration := new(model.Duration)
-	duration.Set("2h")
-	options.MinBlockDuration = *duration
-
-	maxBlockDuration := new(model.Duration)
-	maxBlockDuration.Set("<default>")
-	options.MaxBlockDuration = *maxBlockDuration
-
-	return &options
-}
-
-func Open(storagePath string, noPromLogs bool) (*promTsdb.DB, error) {
+func Open(storagePath string, noPromLogs bool) (*tsdb.DB, error) {
 	var w io.Writer
 	if noPromLogs {
 		w = log.NewSyncWriter(ioutil.Discard)
@@ -39,7 +24,9 @@ func Open(storagePath string, noPromLogs bool) (*promTsdb.DB, error) {
 		storagePath,
 		log.With(logger, "component", "tsdb"),
 		prometheus.DefaultRegisterer,
-		options(),
+		&tsdb.Options{
+			BlockRanges: tsdb.ExponentialBlockRanges(int64(time.Hour*2/time.Millisecond), 10, 3),
+		},
 	)
 
 	return db, err
