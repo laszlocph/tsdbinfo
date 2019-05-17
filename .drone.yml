@@ -9,6 +9,7 @@ steps:
 - name: build
   image: golang:1.12
   commands:
+    - go get
     - env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
     - mv tsdbinfo tsdbinfo-linux-amd64
     - env GOOS=darwin GOARCH=amd64 go build
