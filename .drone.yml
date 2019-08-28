@@ -6,23 +6,17 @@ workspace:
   path: src/github.com/laszlocph/tsdbinfo
 
 steps:
-- name: prereqs
-  image: golang:1.11
-  commands:
-    - mkdir /go/bin
-    - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-
 - name: build
-  image: golang:1.11
+  image: golang:1.12
   commands:
-    - dep ensure
+    - go get
     - env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
     - mv tsdbinfo tsdbinfo-linux-amd64
     - env GOOS=darwin GOARCH=amd64 go build
     - mv tsdbinfo tsdbinfo-mac-amd64
 
 - name: release
-  image: golang:1.11
+  image: golang:1.12
   when:
     event:
     - tag
